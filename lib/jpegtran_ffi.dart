@@ -280,7 +280,15 @@ class JpegTransformer {
   void dispose() {
     calloc.free(_jpegBuf);
 
-    int res = _bindings.tjDestroy(_handleTransform);
+    int res = _bindings.tjDestroy(_handleCompress);
+    if (res != 0) {
+      throw Exception("tjDestroy failed");
+    }
+    res = _bindings.tjDestroy(_handleDecompress);
+    if (res != 0) {
+      throw Exception("tjDestroy failed");
+    }
+    res = _bindings.tjDestroy(_handleTransform);
     if (res != 0) {
       throw Exception("tjDestroy failed");
     }
